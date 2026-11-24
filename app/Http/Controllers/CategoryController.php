@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\CategoryProduct; // Tambahkan baris ini
+use App\Models\CategoryProduct; 
 
 class CategoryController extends Controller
 {
