@@ -17,13 +17,16 @@ Route::get('/about', function () {
 });
 
 Route::view('/contact', 'pages.contact');
-
-// satu controller bisa memiliki beberapa method (perintah)
-// untuk menampilkan data dari database
 Route::get('/product', [ProductController::class, 'index']);
-// menampilkan halaman form insert data (wajib di atas /product/{id})
 Route::get('/product/addProduct', [ProductController::class, 'addProduct']);
-// memasukan data dari form yang diisikan ke dalam database
+Route::post('/product', [ProductController::class, 'store']);
+Route::get('/product/{id}', [ProductController::class, 'show']);
+Route::get('/product/{id}/edit', [ProductController::class, 'edit']);
+Route::put('/product/{id}', [ProductController::class, 'update']);
+Route::delete('/product/{id}', [ProductController::class, 'destroy']);
+
+Route::resource('/category', CategoryController::class);
+
 Route::post('/product', [ProductController::class, 'store']);
 
 // menampilkan detail data produk berdasarkan id tertentu
