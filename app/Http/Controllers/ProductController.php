@@ -93,8 +93,8 @@ public function update($id, Request $request)
     return redirect('/product')->with('message', 'Data Berhasil Diupdate');
 }
 
-    public function destroy($id){
-        // query untuk hapus data dari database
+   public function destroy($id)
+    {
         Product::findOrFail($id)->delete();
         return redirect('/product')->with('message', 'Data Berhasil Dihapus');
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\CategoryProduct; // Tambahkan baris ini
 
 class CategoryController extends Controller
 {
@@ -10,9 +11,10 @@ class CategoryController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        //
-    }
+{
+    $kategori = CategoryProduct::paginate(5);
+    return view('pages.category.show', ['kategori' => $kategori]);
+}
 
     /**
      * Show the form for creating a new resource.
