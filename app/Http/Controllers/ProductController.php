@@ -27,90 +27,8 @@ class ProductController extends Controller
         return view('pages.product.addProduct');
     }
 
-    public function store(Request $request)
-{
-    $request->validate([
-        'name_product'  => 'required|min:4|max:20',
-        'stock_product' => 'required|integer|min:0',
-        'price_product' => 'required|integer|min:0',
-        'desc_product'  => 'required',
-    ]);
-
-    Product::create([
-        'name_product'  => $request->name_product,
-        'stock_product' => $request->stock_product,
-        'price_product' => $request->price_product,
-        'desc_product'  => $request->desc_product,
-        'id_category'   => 1,
-    ]);
-
-    return redirect('/product')->with('message', 'Data Berhasil Ditambahkan');
-}
-
-    public function show($id)
-{
-    $data = Product::findOrFail($id);
-    return view('pages.product.detail', ['produk' => $data]);
-}
-
-public function edit($id)
-{
-    $data = Product::findOrFail($id);
-    return view('pages.product.edit', ['data' => $data]);
-}
-
-public function update($id, Request $request)
-{
-    $request->validate([
-        'name_product'  => 'required|min:4|max:20',
-        'stock_product' => 'required|integer|min:0',
-        'price_product' => 'required|integer|min:0',
-        'desc_product'  => 'required',
-    ]);
-
-    Product::where('id_product', $id)->update([
-        'name_product'  => $request->name_product,
-        'stock_product' => $request->stock_product,
-        'price_product' => $request->price_product,
-        'desc_product'  => $request->desc_product,
-    ]);
-
-    return redirect('/product')->with('message', 'Data Berhasil Diupdate');
-}
-
-    public function show($id)
-{
-    $data = Product::findOrFail($id);
-    return view('pages.product.detail', ['produk' => $data]);
-}
-
-public function edit($id)
-{
-    $data = Product::findOrFail($id);
-    return view('pages.product.edit', ['data' => $data]);
-}
-
-public function update($id, Request $request)
-{
-    $request->validate([
-        'name_product'  => 'required|min:4|max:20',
-        'stock_product' => 'required|integer|min:0',
-        'price_product' => 'required|integer|min:0',
-        'desc_product'  => 'required',
-    ]);
-
-    Product::where('id_product', $id)->update([
-        'name_product'  => $request->name_product,
-        'stock_product' => $request->stock_product,
-        'price_product' => $request->price_product,
-        'desc_product'  => $request->desc_product,
-    ]);
-
-    return redirect('/product')->with('message', 'Data Berhasil Diupdate');
-}
-
-    public function update($id, Request $request){
-        // kita akan melakukan validasi setiap data yang diinputkan pada form edit
+    public function store(Request $request){
+        // kita akan melakukan validasi setiap data yang diinputkan
         $request->validate([
             'name_product' => 'required|min:4|max:20',
             'stock_product' => 'required|integer|min:0',
@@ -129,16 +47,49 @@ public function update($id, Request $request)
             'desc_product.required' => 'Deskripsi produk wajib diisi.',
         ]);
 
-        // query untuk merubah data menggunakan Eloquent ORM
-        Product::findOrFail($id)->update([
+        // kita tambahkan data yang diinputkan ke dalam database
+        Product::create([
             'name_product' => $request->name_product,
             'stock_product' => $request->stock_product,
             'price_product' => $request->price_product,
             'desc_product' => $request->desc_product,
+            'id_category' => rand(1,3), // kita gunakan fungsi random untuk menambahkan category
         ]);
 
-        return redirect('/product')->with('message', 'Data Berhasil Diupdate');
+        // kita akan memberikan pesan ketika data berhasil diinputkan
+        return redirect('/product')->with('message','Data Berhasil Ditambahkan');
     }
+
+    public function show($id)
+{
+    $data = Product::findOrFail($id);
+    return view('pages.product.detail', ['produk' => $data]);
+}
+
+public function edit($id)
+{
+    $data = Product::findOrFail($id);
+    return view('pages.product.edit', ['data' => $data]);
+}
+
+public function update($id, Request $request)
+{
+    $request->validate([
+        'name_product'  => 'required|min:4|max:20',
+        'stock_product' => 'required|integer|min:0',
+        'price_product' => 'required|integer|min:0',
+        'desc_product'  => 'required',
+    ]);
+
+    Product::where('id_product', $id)->update([
+        'name_product'  => $request->name_product,
+        'stock_product' => $request->stock_product,
+        'price_product' => $request->price_product,
+        'desc_product'  => $request->desc_product,
+    ]);
+
+    return redirect('/product')->with('message', 'Data Berhasil Diupdate');
+}
 
     public function destroy($id){
         // query untuk hapus data dari database
