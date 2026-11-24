@@ -47,14 +47,36 @@ class ProductController extends Controller
     return redirect('/product')->with('message', 'Data Berhasil Ditambahkan');
 }
 
-    public function show($id){
-        // query untuk menampilkan detail data sesuai id menggunakan Eloquent ORM
-        $produk_detail = Product::findOrFail($id);
+    public function show($id)
+{
+    $data = Product::findOrFail($id);
+    return view('pages.product.detail', ['produk' => $data]);
+}
 
-        return view('pages.product.detail', [
-            'detail_produk' => $produk_detail
-        ]);
-    }
+public function edit($id)
+{
+    $data = Product::findOrFail($id);
+    return view('pages.product.edit', ['data' => $data]);
+}
+
+public function update($id, Request $request)
+{
+    $request->validate([
+        'name_product'  => 'required|min:4|max:20',
+        'stock_product' => 'required|integer|min:0',
+        'price_product' => 'required|integer|min:0',
+        'desc_product'  => 'required',
+    ]);
+
+    Product::where('id_product', $id)->update([
+        'name_product'  => $request->name_product,
+        'stock_product' => $request->stock_product,
+        'price_product' => $request->price_product,
+        'desc_product'  => $request->desc_product,
+    ]);
+
+    return redirect('/product')->with('message', 'Data Berhasil Diupdate');
+}
 
     public function edit($id){
         // mengambil 1 data spesifik dari id yang dikirimkan dari parameter
